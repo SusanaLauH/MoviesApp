@@ -42,8 +42,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int WEATHER_NOTIFICATION_ID = 3004;
 
-    String movieJsonString = null;
-
 
     // these indices must match the projection
     private static final int INDEX_WEATHER_ID = 0;
@@ -58,14 +56,14 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "Starting sync");
-
+        String movieJsonString = null;
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
-        String page_limit = "1";
-        String page = "1";
+        String page_limit = "12";
         String country = "us";
+        String apiKey = "v2v8k9sdnrc7nux8smg439ye";
 
         try
 
@@ -75,12 +73,12 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
                     "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?";
 
             final String PAGE_LIMIT_PARAM = "page_limit";
-            final String PAGE_PARAM = "page";
             final String COUNTRY_PARAM = "country";
+            final String API_KEY_PARAM = "apikey";
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                    .appendQueryParameter(API_KEY_PARAM, apiKey)
                     .appendQueryParameter(PAGE_LIMIT_PARAM, page_limit)
-                    .appendQueryParameter(PAGE_PARAM, page)
                     .appendQueryParameter(COUNTRY_PARAM, country)
                     .build();
 
@@ -147,7 +145,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    private void getMoviesFromJson(String forecastJsonStr) throws JSONException {
+    private void getMoviesFromJson(String movieJsonString) throws JSONException {
 
 
         final String MOVIE_MOVIES = "movies";
@@ -189,7 +187,11 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 id = movie.getString(MOVIE_ID);
                 title = movie.getString(MOVIE_TITLE);
+                Log.d(LOG_TAG,  title);
+
                 releaseYear = movie.getString(MOVIE_RELEASE_YEAR);
+                Log.d(LOG_TAG,  releaseYear);
+
                 mpaaRating = movie.getString(MOVIE_MPAA_RATING);
                 duration = movie.getString(MOVIE_DURATION);
 
@@ -199,7 +201,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
                 synopsis = movie.getString(MOVIE_SYNOPSIS);
 
                 JSONObject poster = movie.getJSONObject(MOVIE_POSTER);
-                posterLink = rating.getString(MOVIE_POSTER_THUMBNAIL);
+                posterLink = poster.getString(MOVIE_POSTER_THUMBNAIL);
 
                 ContentValues movieValues = new ContentValues();
 
@@ -212,8 +214,9 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
                 movieValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_SYNOPSIS, synopsis);
                 movieValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, posterLink);
 
-
                 cVVector.add(movieValues);
+
+
             }
 
             int inserted = 0;
@@ -311,19 +314,11 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {
-        /*
-         * Since we've created an account
-         */
+
         MovieSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
 
-        /*
-         * Without calling setSyncAutomatically, our periodic sync will not be enabled.
-         */
         ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
 
-        /*
-         * Finally, let's do a sync to get things started
-         */
         syncImmediately(context);
     }
 

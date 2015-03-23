@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.example.android.moviesapp.Utility.BitmapFromURL;
  * Created by SusanaLauH on 3/14/2015.
  */
 public class MovieAdapter extends CursorAdapter {
-
+    public static final String LOG_TAG = "TAG";
 
     public static class ViewHolder {
         public final ImageView posterView;
@@ -36,14 +37,11 @@ public class MovieAdapter extends CursorAdapter {
         super(context, c, flags);
     }
 
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
-        int layoutId = -1;
-
-        layoutId = R.layout.list_item_movie;
-
-        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_movie, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
@@ -53,7 +51,7 @@ public class MovieAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
+        Log.d(LOG_TAG, "MovieAdapter bindView");
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         BitmapFromURL bitmapFromURL = new BitmapFromURL();
         String moviePoster = cursor.getString(MovieFragment.COL_MOVIE_POSTER);
@@ -69,10 +67,6 @@ public class MovieAdapter extends CursorAdapter {
 
 
     }
-
-
-
-
 
 
 }

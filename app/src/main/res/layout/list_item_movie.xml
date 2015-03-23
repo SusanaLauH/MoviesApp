@@ -10,14 +10,15 @@
 
     <FrameLayout
         android:layout_width="60dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="25">
 
         <ImageView
             android:id="@+id/list_item_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
+            android:layout_gravity="center"/>
     </FrameLayout>
 
 
@@ -25,16 +26,22 @@
         android:id="@+id/list_item_movie_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="50"
         android:fontFamily="sans-serif-condensed"
-        android:textSize="20sp"
-        android:text="Movie Title"/>
+        android:gravity="center"
+
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/list_item_movie_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="25"
         android:fontFamily="sans-serif-condensed"
-        android:textSize="20sp"
-        android:text="Score"/>
+        android:gravity="center"
+
+        android:textSize="20sp" />
 
 </LinearLayout>

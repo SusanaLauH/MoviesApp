@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,13 +20,10 @@ import android.widget.ListView;
 import com.example.android.moviesapp.data.MovieContract;
 import com.example.android.moviesapp.sync.MovieSyncAdapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by SusanaLauH on 3/14/2015.
  */
-public class MovieFragment  extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>  {
+public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String LOG_TAG = "TAG";
     private MovieAdapter mMovieAdapter;
@@ -35,10 +33,10 @@ public class MovieFragment  extends Fragment implements LoaderManager.LoaderCall
 
     private static final String SELECTED_KEY = "selected_position";
 
-    private static final int FORECAST_LOADER = 0;
+    private static final int MOVIE_LOADER = 0;
 
 
-    private static final String[] FORECAST_COLUMNS = {
+    private static final String[] MOVIE_COLUMNS = {
             MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry._ID,
             MovieContract.MovieEntry.COLUMN_MOVIE_ID,
             MovieContract.MovieEntry.COLUMN_MOVIE_TITLE,
@@ -63,9 +61,6 @@ public class MovieFragment  extends Fragment implements LoaderManager.LoaderCall
 
 
     public interface Callback {
-        /**
-         * DetailFragmentCallback for when an item has been selected.
-         */
         public void onItemSelected(Uri dateUri);
     }
 
@@ -86,22 +81,28 @@ public class MovieFragment  extends Fragment implements LoaderManager.LoaderCall
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(FORECAST_LOADER, null, this);
+        getLoaderManager().initLoader(MOVIE_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu);
+        menuInflater.inflate(R.menu.movie_fragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_refresh) {
+            updateMovie();
+            getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -117,6 +118,7 @@ public class MovieFragment  extends Fragment implements LoaderManager.LoaderCall
 
         mListView = (ListView) rootView.findViewById(R.id.listView_movies);
         mListView.setAdapter(mMovieAdapter);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -143,22 +145,11 @@ public class MovieFragment  extends Fragment implements LoaderManager.LoaderCall
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
-       // mMovieAdapter.setUseTodayLayout(mUseTodayLayout);
+        // mMovieAdapter.setUseTodayLayout(mUseTodayLayout);
+        Log.d(LOG_TAG, "OnCreateView- Movie Fragment");
 
         return rootView;
     }
-
-    /* The date/time conversion code is going to be moved outside the asynctask later,
-     * so for convenience we're breaking it out into its own method now.
-     */
-    private String getReadableDateString(long time) {
-        // Because the API returns a unix timestamp (measured in seconds),
-        // it must be converted to milliseconds in order to be converted to valid date.
-        Date date = new Date(time * 1000);
-        SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
-        return format.format(date).toString();
-    }
-
 
 
     @Override
@@ -175,14 +166,17 @@ public class MovieFragment  extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri weatherForLocationUri = MovieContract.MovieEntry.buildMovieUri(id);
+        Log.d(LOG_TAG, "OnCreateLoader- Movie Fragment");
+
+        Uri movieUri = MovieContract.MovieEntry.buildMovieUri(id);
         return new CursorLoader(getActivity(),
-                weatherForLocationUri,
-                FORECAST_COLUMNS,
+                movieUri,
+                MOVIE_COLUMNS,
                 null,
                 null,
                 null
-                );
+        );
+
     }
 
     @Override
@@ -190,8 +184,9 @@ public class MovieFragment  extends Fragment implements LoaderManager.LoaderCall
         mMovieAdapter.swapCursor(data);
         if (mPosition != ListView.INVALID_POSITION) {
 
-                    mListView.smoothScrollToPosition(mPosition);
+            mListView.smoothScrollToPosition(mPosition);
         }
+        Log.d(LOG_TAG, "OnLoaderFinished- Movie Fragment");
     }
 
     @Override
