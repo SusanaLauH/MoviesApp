@@ -2,7 +2,6 @@ package com.example.android.moviesapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,8 +19,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.moviesapp.Utility.BitmapFromURL;
 import com.example.android.moviesapp.data.MovieContract;
+import com.koushikdutta.ion.Ion;
 
 /**
  * Created by SusanaLauH on 3/21/2015.
@@ -34,10 +33,11 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private static final String FORECAST_SHARE_HASHTAG = " #MoviesApp";
 
     private ShareActionProvider mShareActionProvider;
-    private String mForecast;
+    private String mMovie;
     private Uri mUri;
 
     private static final int DETAIL_LOADER = 0;
+
 
     private static final String[] DETAIL_COLUMNS = {
             MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry._ID,
@@ -109,16 +109,16 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
         // If onLoadFinished happens before this, we can go ahead and set the share intent now.
-        if (mForecast != null) {
-            mShareActionProvider.setShareIntent(createShareForecastIntent());
+        if (mMovie != null) {
+            mShareActionProvider.setShareIntent(createShareMovieIntent());
         }
     }
 
-    private Intent createShareForecastIntent() {
+    private Intent createShareMovieIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mForecast + FORECAST_SHARE_HASHTAG);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mMovie + FORECAST_SHARE_HASHTAG);
         return shareIntent;
     }
 
@@ -130,7 +130,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if ( null != mUri ) {
+        if (null != mUri) {
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
             return new CursorLoader(
@@ -144,14 +144,19 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         }
         return null;
     }
+
     @Override
-    public void onLoadFinished (Loader < Cursor > loader, Cursor data){
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
 
-            BitmapFromURL bitmapFromURL = new BitmapFromURL();
-            String moviePoster = data.getString(MovieFragment.COL_MOVIE_POSTER);
-            Bitmap movieImage = bitmapFromURL.getBitmapFromURL(moviePoster);
-            mMoviePosterView.setImageBitmap(movieImage);
+            String moviePoster = data.getString(COL_MOVIE_POSTER);
+
+            Ion.with(mMoviePosterView)
+                    .placeholder(R.drawable.movies_app_icon)
+                    .error(R.drawable.movies_app_icon)
+                            //.animateLoad(spinAnimation)
+                            //.animateIn(fadeInAnimation)
+                    .load(moviePoster);
 
             String movieTitle = data.getString(COL_MOVIE_TITLE);
             mMovieTitleView.setText(movieTitle);
@@ -172,16 +177,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             mMovieSynopsisView.setText(movieSynopsis);
 
 
-
             // If onCreateOptionsMenu has already happened, we need to update the share intent now.
             if (mShareActionProvider != null) {
-                mShareActionProvider.setShareIntent(createShareForecastIntent());
+                mShareActionProvider.setShareIntent(createShareMovieIntent());
             }
         }
     }
 
     @Override
-    public void onLoaderReset (Loader < Cursor > loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
     }
 
 

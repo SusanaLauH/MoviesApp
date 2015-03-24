@@ -57,8 +57,8 @@ public class MovieAdapter extends CursorAdapter {
         String moviePoster = cursor.getString(MovieFragment.COL_MOVIE_POSTER);
 
         Ion.with(viewHolder.posterView)
-                //.placeholder(R.drawable.placeholder_image)
-                //.error(R.drawable.error_image)
+                .placeholder(R.drawable.movies_app_icon)
+                .error(R.drawable.movies_app_icon)
                 //.animateLoad(spinAnimation)
                 //.animateIn(fadeInAnimation)
                 .load(moviePoster);

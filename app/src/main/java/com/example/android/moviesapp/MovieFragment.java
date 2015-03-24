@@ -129,10 +129,15 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
-                    ((Callback) getActivity())
-                            .onItemSelected(MovieContract.MovieEntry.buildMovieUri(position));
+                    ((Callback) getActivity()).onItemSelected(MovieContract.MovieEntry.buildMovieUri(l));
                 }
                 mPosition = position;
+                Log.d(LOG_TAG, "Value of position:: " + position );
+                Log.d(LOG_TAG, "Value of l:: " + l );
+                Log.d(LOG_TAG, "Cursor at position;  " + cursor.getString(COL_MOVIE_TITLE));
+                Log.d(LOG_TAG, "contentUri" + MovieContract.MovieEntry.buildMovieUri(l));
+
+
             }
         });
 

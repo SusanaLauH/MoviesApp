@@ -1,69 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--Movie Icon -->
+        <ImageView
+            android:id="@+id/movie_detail_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp" />
+
+        <!--Movie Title-->
+        <TextView
+            android:id="@+id/movie_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif-light"
+            android:textSize="48sp" />
+
+        <!--Movie Release Year-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/movie_detail_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
+        </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/movie_detail_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"/>
+        <!--Movie Duration-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/movie_detail_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="sans-serif-light"
-        android:textSize="96sp"
-        android:contentDescription="High Temperature"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Duration: "
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/movie_detail_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/grey_700"
-        android:textSize="48sp"
-        android:contentDescription="Low Temperature"/>
+            <TextView
+                android:id="@+id/movie_detail_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/movie_detail_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/grey_700"
-        android:textSize="48sp"
-        android:contentDescription="Low Temperature"/>
+        <!--Movie MPAA Rating-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/movie_detail_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/grey_700"
-        android:textSize="48sp"
-        android:contentDescription="Low Temperature"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="MPAA Rating: "
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/movie_detail_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/grey_700"
-        android:textSize="48sp"
-        android:contentDescription="Low Temperature"/>
+            <TextView
+                android:id="@+id/movie_detail_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/movie_detail_synopsis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:contentDescription="Date"/>
+        <!--Movie Audience Score-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Score: "
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/movie_detail_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="%"
+                android:textColor="@color/grey_700"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <!--Movie Synopsis-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Synopsis: "
+            android:textColor="@color/grey_700"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/movie_detail_synopsis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Date"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+</ScrollView>

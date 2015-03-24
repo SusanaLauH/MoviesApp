@@ -83,8 +83,7 @@ public class MainActivity extends ActionBarActivity implements MovieFragment.Cal
                     .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
                     .commit();
         } else {
-            Intent intent = new Intent(this, MovieDetailActivity.class)
-                    .setData(contentUri);
+            Intent intent = new Intent(this, MovieDetailActivity.class).setData(contentUri);
             startActivity(intent);
         }
     }
