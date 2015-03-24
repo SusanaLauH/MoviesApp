@@ -27,6 +27,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
     public static final String LOG_TAG = "TAG";
     private MovieAdapter mMovieAdapter;
+    //private MovieSyncAdapter mMovieSyncAdapter;
 
     private ListView mListView;
     private int mPosition = ListView.INVALID_POSITION;
@@ -50,14 +51,14 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
-    static final int COL_MOVIE_ID = 0;
-    static final int COL_MOVIE_TITLE = 1;
-    static final int COL_MOVIE_RELEASE_YEAR = 2;
-    static final int COL_MOVIE_RATING = 3;
-    static final int COL_MOVIE_DURATION = 4;
-    static final int COL_MOVIE_SCORE = 5;
-    static final int COL_MOVIE_SYNOPSIS = 6;
-    static final int COL_MOVIE_POSTER = 7;
+    static final int COL_MOVIE_ID = 1;
+    static final int COL_MOVIE_TITLE = 2;
+    static final int COL_MOVIE_RELEASE_YEAR = 3;
+    static final int COL_MOVIE_RATING = 4;
+    static final int COL_MOVIE_DURATION = 5;
+    static final int COL_MOVIE_SCORE = 6;
+    static final int COL_MOVIE_SYNOPSIS = 7;
+    static final int COL_MOVIE_POSTER = 8;
 
 
     public interface Callback {
@@ -96,13 +97,13 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
+        /*int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
             updateMovie();
             getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -112,6 +113,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mMovieAdapter = new MovieAdapter(getActivity(), null, 0);
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         // The CursorAdapter will take data from our cursor and populate the ListView.
 
@@ -187,6 +189,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
             mListView.smoothScrollToPosition(mPosition);
         }
         Log.d(LOG_TAG, "OnLoaderFinished- Movie Fragment");
+
     }
 
     @Override

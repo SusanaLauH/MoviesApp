@@ -2,7 +2,6 @@ package com.example.android.moviesapp;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.moviesapp.Utility.BitmapFromURL;
+import com.koushikdutta.ion.Ion;
 
 /**
  * Created by SusanaLauH on 3/14/2015.
@@ -52,18 +51,26 @@ public class MovieAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         Log.d(LOG_TAG, "MovieAdapter bindView");
+
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        BitmapFromURL bitmapFromURL = new BitmapFromURL();
+
         String moviePoster = cursor.getString(MovieFragment.COL_MOVIE_POSTER);
-        Bitmap movieImage = bitmapFromURL.getBitmapFromURL(moviePoster);
-        viewHolder.posterView.setImageBitmap(movieImage);
+
+        Ion.with(viewHolder.posterView)
+                //.placeholder(R.drawable.placeholder_image)
+                //.error(R.drawable.error_image)
+                //.animateLoad(spinAnimation)
+                //.animateIn(fadeInAnimation)
+                .load(moviePoster);
 
 
         String movieTitle = cursor.getString(MovieFragment.COL_MOVIE_TITLE);
         viewHolder.titleView.setText(movieTitle);
+        //Log.d(LOG_TAG, "MovieAdapter" + movieTitle);
 
         String movieScore = cursor.getString(MovieFragment.COL_MOVIE_SCORE);
         viewHolder.scoreView.setText(movieScore);
+        //Log.d(LOG_TAG, "MovieAdapter" + movieScore);
 
 
     }

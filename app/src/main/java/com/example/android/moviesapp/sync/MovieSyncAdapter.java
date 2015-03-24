@@ -187,10 +187,10 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 id = movie.getString(MOVIE_ID);
                 title = movie.getString(MOVIE_TITLE);
-                Log.d(LOG_TAG,  title);
+                Log.d(LOG_TAG, title);
 
                 releaseYear = movie.getString(MOVIE_RELEASE_YEAR);
-                Log.d(LOG_TAG,  releaseYear);
+                Log.d(LOG_TAG, releaseYear);
 
                 mpaaRating = movie.getString(MOVIE_MPAA_RATING);
                 duration = movie.getString(MOVIE_DURATION);
@@ -227,9 +227,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
                 getContext().getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, cvArray);
 
 
-                // TO-DO --delete old data so we don't build up an endless history
-
-
             }
 
             Log.d(LOG_TAG, "Sync Complete. " + cVVector.size() + " Inserted");
@@ -264,6 +261,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
     /**
      * Helper method to have the sync adapter sync immediately
+     *
      * @param context The context used to access the account service
      */
     public static void syncImmediately(Context context) {
@@ -292,7 +290,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         // If the password doesn't exist, the account doesn't exist
-        if ( null == accountManager.getPassword(newAccount) ) {
+        if (null == accountManager.getPassword(newAccount)) {
 
         /*
          * Add the account and account type, no password or user data
