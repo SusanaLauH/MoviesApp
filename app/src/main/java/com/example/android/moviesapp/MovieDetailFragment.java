@@ -10,6 +10,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +31,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private static final String LOG_TAG = MovieDetailFragment.class.getSimpleName();
 
     static final String DETAIL_URI = "URI";
-    private static final String FORECAST_SHARE_HASHTAG = " #MoviesApp";
+    private static final String FORECAST_SHARE_HASHTAG = " #MovieBuddy App";
 
     private ShareActionProvider mShareActionProvider;
     private String mMovie;
@@ -84,6 +85,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Bundle arguments = getArguments();
         if (arguments != null) {
             mUri = arguments.getParcelable(MovieDetailFragment.DETAIL_URI);
+            Log.d(LOG_TAG, "MovieDetail Fragment, getting arguments" + mUri);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -131,6 +133,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (null != mUri) {
+            Log.d(LOG_TAG, "onCreateLoader mUri" + mUri);
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
             return new CursorLoader(
@@ -142,12 +145,16 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                     null
             );
         }
+
         return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
+        if (data != null && data.moveToFirst()){
+            //if (data != null) {
+            Log.d(LOG_TAG, "On Load Finished  " + data.getString(COL_MOVIE_TITLE));
+            Log.d(LOG_TAG, "Size  "+ data.getCount());
 
             String moviePoster = data.getString(COL_MOVIE_POSTER);
 
@@ -160,6 +167,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
             String movieTitle = data.getString(COL_MOVIE_TITLE);
             mMovieTitleView.setText(movieTitle);
+            mMovie = movieTitle + " is now available on theaters!";
 
             String movieYear = data.getString(COL_MOVIE_RELEASE_YEAR);
             mMovieYearView.setText(movieYear);
@@ -175,6 +183,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
             String movieSynopsis = data.getString(COL_MOVIE_SYNOPSIS);
             mMovieSynopsisView.setText(movieSynopsis);
+
 
 
             // If onCreateOptionsMenu has already happened, we need to update the share intent now.

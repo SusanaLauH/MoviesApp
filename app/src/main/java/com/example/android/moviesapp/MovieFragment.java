@@ -129,14 +129,13 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
-                    ((Callback) getActivity()).onItemSelected(MovieContract.MovieEntry.buildMovieUri(l));
+                    ((Callback) getActivity()).onItemSelected(MovieContract.MovieEntry.buildMovieWithSpecificID(l));
                 }
                 mPosition = position;
-                Log.d(LOG_TAG, "Value of position:: " + position );
-                Log.d(LOG_TAG, "Value of l:: " + l );
-                Log.d(LOG_TAG, "Cursor at position;  " + cursor.getString(COL_MOVIE_TITLE));
-                Log.d(LOG_TAG, "contentUri" + MovieContract.MovieEntry.buildMovieUri(l));
-
+                Log.d(LOG_TAG, "Value of position:: " + position);
+                Log.d(LOG_TAG, "Value of l:: " + l);
+                Log.d(LOG_TAG, "Cursor at position:  " + position + "is: " +  cursor.getString(COL_MOVIE_TITLE));
+                Log.d(LOG_TAG, "contentUri No ID" + MovieContract.MovieEntry.buildMovieUri());
 
             }
         });
@@ -175,7 +174,8 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
         Log.d(LOG_TAG, "OnCreateLoader- Movie Fragment");
 
-        Uri movieUri = MovieContract.MovieEntry.buildMovieUri(id);
+        Uri movieUri = MovieContract.MovieEntry.buildMovieUri();
+        Log.d (LOG_TAG, "Movie Fragment OnCreate Loader" + movieUri);
         return new CursorLoader(getActivity(),
                 movieUri,
                 MOVIE_COLUMNS,
@@ -185,6 +185,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         );
 
     }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {

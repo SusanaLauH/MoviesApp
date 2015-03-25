@@ -1,5 +1,6 @@
 package com.example.android.moviesapp.data;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -18,6 +19,12 @@ public class MovieContract {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
 
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
+
         // Table name
         public static final String TABLE_NAME = "movie";
 
@@ -32,8 +39,14 @@ public class MovieContract {
         public static final String COLUMN_MOVIE_POSTER = "posterLink";
 
 
-        public static Uri buildMovieUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
+        public static Uri buildMovieUri() {
+            return CONTENT_URI.buildUpon().build();
+            //return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static Uri buildMovieWithSpecificID(long movieId) {
+            // return CONTENT_URI.buildUpon().appendPath(Long.toString(movieId)).build();
+            return ContentUris.withAppendedId(CONTENT_URI, movieId);
         }
 
     }

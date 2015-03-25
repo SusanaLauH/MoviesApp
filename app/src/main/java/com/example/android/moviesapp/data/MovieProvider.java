@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 /**
@@ -17,28 +18,22 @@ public class MovieProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private MovieDbHelper mOpenHelper;
 
-    static final int MOVIE = 100;
-
+    static final int MOVIES = 100;
+    static final int MOVIE_WITH_MOVIE_ID = 200;
 
     static UriMatcher buildUriMatcher() {
-        // 1) The code passed into the constructor represents the code to return for the root
-        // URI.  It's common to use NO_MATCH as the code for this case. Add the constructor below.
+
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MovieContract.CONTENT_AUTHORITY;
-
-
-        // 2) Use the addURI function to match each of the types.  Use the constants from
-        // WeatherContract to help define the types to the UriMatcher.
-        matcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIE);
-
-        // 3) Return the new matcher!
+        matcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIES);
+        matcher.addURI(authority, MovieContract.PATH_MOVIE + "/#", MOVIE_WITH_MOVIE_ID);
         return matcher;
     }
 
-    /*
-        Students: We've coded this for you.  We just create a new WeatherDbHelper for later use
-        here.
-     */
+    private static final String sMovieIdSelection =
+            MovieContract.MovieEntry.TABLE_NAME +
+                    "." + MovieContract.MovieEntry._ID + " = ? ";
+
     @Override
     public boolean onCreate() {
         mOpenHelper = new MovieDbHelper(getContext());
@@ -46,13 +41,36 @@ public class MovieProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-                        String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(MovieContract.MovieEntry.TABLE_NAME);
         Cursor retCursor;
+        int uriType = sUriMatcher.match(uri);
+        switch (uriType) {
+            case MOVIES:
+                break;
+            case MOVIE_WITH_MOVIE_ID:
+                //selection = sMovieIdSelection;
+                queryBuilder.appendWhere(MovieContract.MovieEntry._ID + "=" + uri.getLastPathSegment());
 
-        retCursor = mOpenHelper.getReadableDatabase().query(
+
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+
+       /* retCursor = mOpenHelper.getReadableDatabase().query(
                 MovieContract.MovieEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        ); */
+
+        retCursor = queryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
                 selection,
                 selectionArgs,
@@ -61,15 +79,27 @@ public class MovieProvider extends ContentProvider {
                 sortOrder
         );
 
-
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
+
     }
+
 
     @Override
     public String getType(Uri uri) {
-        return null;
+
+        final int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case MOVIES:
+                return MovieContract.MovieEntry.CONTENT_TYPE;
+            case MOVIE_WITH_MOVIE_ID:
+                return MovieContract.MovieEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
     }
+
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
