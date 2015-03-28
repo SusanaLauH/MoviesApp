@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.moviesapp.data.MovieContract;
-import com.koushikdutta.ion.Ion;
 
 /**
  * Created by SusanaLauH on 3/21/2015.
@@ -89,7 +88,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        mMoviePosterView = (ImageView) rootView.findViewById(R.id.movie_detail_image);
+        //mMoviePosterView = (ImageView) rootView.findViewById(R.id.movie_detail_image);
         mMovieTitleView = (TextView) rootView.findViewById(R.id.movie_detail_title);
         mMovieYearView = (TextView) rootView.findViewById(R.id.movie_detail_year);
         mMovieDurationView = (TextView) rootView.findViewById(R.id.movie_detail_duration);
@@ -156,14 +155,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             Log.d(LOG_TAG, "On Load Finished  " + data.getString(COL_MOVIE_TITLE));
             Log.d(LOG_TAG, "Size  "+ data.getCount());
 
-            String moviePoster = data.getString(COL_MOVIE_POSTER);
-
+           // String moviePoster = data.getString(COL_MOVIE_POSTER);
+            /*
             Ion.with(mMoviePosterView)
                     .placeholder(R.drawable.movies_app_icon)
                     .error(R.drawable.movies_app_icon)
                             //.animateLoad(spinAnimation)
                             //.animateIn(fadeInAnimation)
                     .load(moviePoster);
+            */
 
             String movieTitle = data.getString(COL_MOVIE_TITLE);
             mMovieTitleView.setText(movieTitle);

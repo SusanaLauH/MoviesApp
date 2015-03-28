@@ -14,7 +14,6 @@ import android.net.Uri;
  */
 public class MovieProvider extends ContentProvider {
 
-    // The URI Matcher used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private MovieDbHelper mOpenHelper;
 
@@ -30,9 +29,6 @@ public class MovieProvider extends ContentProvider {
         return matcher;
     }
 
-    private static final String sMovieIdSelection =
-            MovieContract.MovieEntry.TABLE_NAME +
-                    "." + MovieContract.MovieEntry._ID + " = ? ";
 
     @Override
     public boolean onCreate() {
@@ -51,24 +47,12 @@ public class MovieProvider extends ContentProvider {
             case MOVIES:
                 break;
             case MOVIE_WITH_MOVIE_ID:
-                //selection = sMovieIdSelection;
-                queryBuilder.appendWhere(MovieContract.MovieEntry._ID + "=" + uri.getLastPathSegment());
-
+                   queryBuilder.appendWhere(MovieContract.MovieEntry._ID + "=" + uri.getLastPathSegment());
 
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
-
-       /* retCursor = mOpenHelper.getReadableDatabase().query(
-                MovieContract.MovieEntry.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        ); */
 
         retCursor = queryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
@@ -111,8 +95,6 @@ public class MovieProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
 
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-
-        final int match = sUriMatcher.match(uri);
         int rowsDeleted;
 
         if (null == selection) selection = "1";
@@ -122,7 +104,6 @@ public class MovieProvider extends ContentProvider {
         if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-
 
         return rowsDeleted;
     }
