@@ -60,7 +60,7 @@ public class MovieProvider extends ContentProvider {
                 selectionArgs,
                 null,
                 null,
-                sortOrder
+                MovieContract.MovieEntry._ID + " DESC"
         );
 
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);

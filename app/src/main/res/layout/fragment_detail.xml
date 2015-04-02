@@ -78,8 +78,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/duration"
                     android:layout_marginBottom="8dp"
@@ -212,7 +212,7 @@
             android:layout_marginRight="16dp"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>

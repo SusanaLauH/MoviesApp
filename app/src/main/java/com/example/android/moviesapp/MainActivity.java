@@ -59,6 +59,7 @@ public class MainActivity extends ActionBarActivity implements MovieFragment.Cal
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        /*
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
@@ -66,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements MovieFragment.Cal
             startActivity(intent);
             return true;
         }
-
+    */
         return super.onOptionsItemSelected(item);
     }
 

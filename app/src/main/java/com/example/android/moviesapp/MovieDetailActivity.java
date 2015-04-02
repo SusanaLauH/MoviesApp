@@ -1,6 +1,5 @@
 package com.example.android.moviesapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -39,7 +38,7 @@ public class MovieDetailActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+    /*
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
@@ -47,7 +46,7 @@ public class MovieDetailActivity extends ActionBarActivity {
             startActivity(intent);
             return true;
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 }
