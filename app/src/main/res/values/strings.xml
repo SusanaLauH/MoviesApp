@@ -20,4 +20,11 @@
     <string name="sync_account_type">moviesapp.example.com</string>
     <string name="content_authority">com.example.android.moviesapp</string>
 
+
+    <string name="label_movie_title">Movie Title</string>
+    <string name="mins">  mins</string>
+    <string name="synopsis">Synopsis: </string>
+    <string name="score">Score</string>
+
+
 </resources>

@@ -10,9 +10,10 @@
 
     <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="20">
+        android:layout_weight="20"
+        android:background="@color/pale_pink">
 
         <ImageView
             android:id="@+id/list_item_icon"
@@ -22,21 +23,29 @@
             android:layout_marginLeft="10dp" />
     </FrameLayout>
 
-
-    <TextView
-        android:id="@+id/list_item_movie_title"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
         android:layout_weight="60"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="left"
-        android:textSize="18sp" />
+        android:background="@color/pale_pink">
+
+        <TextView
+            android:id="@+id/list_item_movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="left"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="20"
+        android:background="@color/pink"
         android:orientation="vertical">
 
 
@@ -47,15 +56,15 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:text="Score"
+            android:text="@string/score"
             android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:layout_gravity="center">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/list_item_movie_score"
@@ -64,7 +73,10 @@
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="left"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
             <TextView
                 android:id="@+id/list_item_movie_percentage"
                 android:layout_width="wrap_content"
@@ -72,8 +84,9 @@
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="left"
+                android:text="%"
                 android:textSize="20sp"
-                android:text="%"/>
+                android:textColor="@color/black"/>
 
 
         </LinearLayout>

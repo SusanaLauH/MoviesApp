@@ -5,5 +5,9 @@
     <color name="grey">#cccccc</color>
     <color name="grey_700">#646464</color>
     <color name="black">#000000</color>
+    <color name="pale_yellow">#f6d992</color>
+    <color name="strong_pink">#f6a192</color>
+    <color name="pink">#f6b092</color>
+    <color name="pale_pink">#f6c492</color>
 
 </resources>
