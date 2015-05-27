@@ -39,15 +39,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 60;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-    private static final int WEATHER_NOTIFICATION_ID = 3004;
-
-
-    // these indices must match the projection
-    private static final int INDEX_WEATHER_ID = 0;
-    private static final int INDEX_MAX_TEMP = 1;
-    private static final int INDEX_MIN_TEMP = 2;
-    private static final int INDEX_SHORT_DESC = 3;
 
     public MovieSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -62,6 +53,8 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         BufferedReader reader = null;
 
         String page_limit = "50";
+
+        //Add the country to the settings menu.
         String country = "us";
         String apiKey = "v2v8k9sdnrc7nux8smg439ye";
 
@@ -70,7 +63,7 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
         {
 
             final String BASE_URL =
-                    "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?";
+                    "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json";
 
             final String PAGE_LIMIT_PARAM = "page_limit";
             final String COUNTRY_PARAM = "country";
@@ -118,8 +111,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
         {
             Log.e(LOG_TAG, "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attempting
-            // to parse it.
         } catch (
                 JSONException e
                 )
@@ -169,7 +160,6 @@ public class MovieSyncAdapter extends AbstractThreadedSyncAdapter {
 
             JSONArray movieArray = movieJson.getJSONArray(MOVIE_MOVIES);
 
-            // Insert the new weather information into the database
             Vector<ContentValues> cVVector = new Vector<ContentValues>(movieArray.length());
 
 

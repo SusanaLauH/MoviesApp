@@ -30,7 +30,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private static final String LOG_TAG = MovieDetailFragment.class.getSimpleName();
 
     static final String DETAIL_URI = "URI";
-    private static final String FORECAST_SHARE_HASHTAG = " #MovieBuddy App";
+    private static final String MOVIE_SHARE_HASHTAG = " #MovieBuddyApp";
 
     private ShareActionProvider mShareActionProvider;
     private String mMovie;
@@ -119,7 +119,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mMovie + FORECAST_SHARE_HASHTAG);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mMovie + MOVIE_SHARE_HASHTAG);
         return shareIntent;
     }
 
